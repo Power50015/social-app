@@ -1,26 +1,34 @@
 const mongoose = require("mongoose");
-const validator = require('validator');
+const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please enter user name']
+    required: [true, "Please enter user name"],
   },
   email: {
     type: String,
-    required: [true, 'Please enter an email'],
+    required: [true, "Please enter an email"],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please enter a valid email']
+    validate: [validator.isEmail, "Please enter a valid email"],
   },
   password: {
     type: String,
-    required: [true, 'Please enter a password'],
-    minlength: [6, 'Minimum password length is 6 characters'],
+    required: [true, "Please enter a password"],
+    minlength: [6, "Minimum password length is 6 characters"],
   },
   image: {
     type: String,
   },
+});
+
+
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
 const User = mongoose.model("user", userSchema);

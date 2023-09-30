@@ -3,10 +3,10 @@ const User = require("../models/User");
 require("dotenv").config();
 
 const requireAuth = (req, res, next) => {
-  const token = req.headers.authorization;
-
+  const BearerToken = req.headers.authorization;
   // check json web token exists & is verified
-  if (token) {
+  if (BearerToken) {
+    const token = BearerToken.split(" ")[1];
     jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
@@ -16,8 +16,27 @@ const requireAuth = (req, res, next) => {
       }
     });
   } else {
-    res.redirect("/login");
+    res.json("User not Found");
   }
 };
 
-module.exports = { requireAuth };
+const userData = async (req, res) => {
+  const BearerToken = req.headers.authorization;
+
+  if (BearerToken) {
+    const token = BearerToken.split(" ")[1];
+    let userId = "";
+    jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
+      userId = decodedToken.id;
+    });
+    const user = await User.findById(userId).exec();
+    return {
+      id:user._id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+    };
+  }
+};
+
+module.exports = { requireAuth, userData };

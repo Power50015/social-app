@@ -4,7 +4,8 @@
   "description": "social network app for practicing Node, Express.js, Mongoo",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "seed": "./seed"
   },
   "keywords": [],
   "author": "",

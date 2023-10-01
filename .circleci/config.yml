@@ -1,17 +1,10 @@
 version: 2.1
-orbs:
-  node: circleci/node@5.0.2
 jobs:
-  build_and_test: # this can be any name you choose
-    executor: node/default # use the default executor defined within the orb
+  build:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:18
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm run dev
-          name: npm dev
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - .
+      - run: npm install
+      - run: npm run dev

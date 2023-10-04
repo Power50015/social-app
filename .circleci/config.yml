@@ -7,4 +7,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run start
+      - run:
+          name: Run Start
+          no_output_timeout: 30m
+          command: npm run start

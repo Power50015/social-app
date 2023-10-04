@@ -9,7 +9,9 @@ const friendRequestController = require("../controllers/friendRequestController"
 
 const router = Router();
 
-router.get("/", () => console.log("hello world!"));
+router.get('/', (req, res) => {
+    res.send('hello world')
+  })
 
 /**
  * Auth Routers

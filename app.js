@@ -17,9 +17,9 @@ const dbURI = process.env.DB_URI;
 
 mongoose.connect(dbURI).then(() => {
   console.log("DB Connected!");
-  app.listen(port, () => {
-    console.log(`Local:   http://localhost:${port}/`);
-  });
+  // app.listen(port, () => {
+  //   console.log(`Local:   http://localhost:${port}/`);
+  // });
 });
 
 

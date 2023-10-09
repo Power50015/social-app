@@ -15,13 +15,13 @@ app.use(morgan("combined"));
 
 const dbURI = process.env.DB_URI;
 
-// mongoose.connect(dbURI).then(() => {
-//   console.log("DB Connected!");
-//   app.listen(port, () => {
-//     console.log(`Local:   http://localhost:${port}/`);
-//   });
-// });
+mongoose.connect(dbURI).then(() => {
+  // console.log("DB Connected!");
+  app.listen(port, () => {
+    // console.log(`Local:   http://localhost:${port}/`);
+  });
+});
 
-// mongoose.connect(dbURI).then(() =>{
-//   app.use(router)
-// });
+app.use(router)
+
+module.exports = app;

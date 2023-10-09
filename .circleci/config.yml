@@ -8,6 +8,6 @@ jobs:
       - checkout
       - run: npm install
       - run:
-          name: Run Start
+          name: Run Test
           no_output_timeout: 30m
-          command: npm run start
+          command: npm run test

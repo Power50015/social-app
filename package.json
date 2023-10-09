@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "seed": "./seed",
-    "start":"node app.js"
+    "test": "jest --watch",
+    "seed": "./seed"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +22,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
     "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   }
 }

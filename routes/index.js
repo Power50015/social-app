@@ -2,16 +2,14 @@ const Router = require("express");
 const authController = require("../controllers/authController");
 const { requireAuth } = require("../middleware/authMiddleware");
 
-
 const postController = require("../controllers/postController");
 const friendRequestController = require("../controllers/friendRequestController");
 
-
 const router = Router();
 
-router.get('/', (req, res) => {
-    res.send('hello world')
-  })
+router.get("/", (req, res) => {
+  res.status(200).json("");
+});
 
 /**
  * Auth Routers
@@ -33,6 +31,5 @@ router.post("/post", requireAuth, postController.create);
  */
 
 router.post("/friend-request", requireAuth, friendRequestController.create);
-
 
 module.exports = router;

@@ -9,14 +9,13 @@ const requireAuth = (req, res, next) => {
     const token = BearerToken.split(" ")[1];
     jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
+        // console.log(err.message);
       } else {
-        console.log(decodedToken);
         next();
       }
     });
   } else {
-    res.json("User not Found");
+    res.status(401).json("User not Found");
   }
 };
 
@@ -29,13 +28,19 @@ const userData = async (req, res) => {
     jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
       userId = decodedToken.id;
     });
-    const user = await User.findById(userId).exec();
-    return {
-      id:user._id,
-      name: user.name,
-      email: user.email,
-      image: user.image,
-    };
+    try{
+      const user = await User.findById(userId).exec();
+      if (user) {
+        return {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        };
+      }
+    }catch {
+      res.status(401).json("User not Found");
+    }
   }
 };
 

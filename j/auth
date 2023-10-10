@@ -11,10 +11,10 @@ const email = "john" + random + "@gmail.com";
 let userId;
 
 describe("Register Test Units", function () {
+
   // Preparing Unit Test
   let response, responseBody;
-
-  it("Specify JSON in the content type header", async function () {
+  beforeAll(async () => {
     // Call register URL
     response = await request(app)
       .post("/register")
@@ -23,9 +23,12 @@ describe("Register Test Units", function () {
         email: email,
         password: random,
       })
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/);
-    responseBody = response.body;
+      .set("Accept", "application/json");
+      responseBody = response.body;
+  });
+
+  it("Specify JSON in the content type header", async function () {
+    expect(response.headers["content-type"]).toMatch(/json/);
   });
 
   it("Respond with a 201 status code", function () {
@@ -109,6 +112,7 @@ describe("Register Test Units", function () {
       .expect("Content-Type", /json/);
     expect(response.status).toEqual(400);
   });
+  
 });
 
 describe("Login Test Units", function () {
@@ -161,7 +165,7 @@ describe("Login Test Units", function () {
     response = await request(app)
       .post("/login")
       .send({
-        email:"Un validate",
+        email: "Un validate",
         password: random,
       })
       .set("Accept", "application/json")
@@ -173,7 +177,7 @@ describe("Login Test Units", function () {
     response = await request(app)
       .post("/login")
       .send({
-        email: "ss"+email,
+        email: "ss" + email,
         password: random,
       })
       .set("Accept", "application/json")
@@ -197,7 +201,7 @@ describe("Login Test Units", function () {
       .post("/login")
       .send({
         email: email,
-        password:"Wrongpassword"
+        password: "Wrongpassword",
       })
       .set("Accept", "application/json")
       .expect("Content-Type", /json/);

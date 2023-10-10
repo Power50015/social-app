@@ -28,8 +28,7 @@ router.post("/post", requireAuth, postController.create);
 
 /**
  * Friend request
- */
-
+*/
 router.post("/friend-request", requireAuth, friendRequestController.create);
 
 module.exports = router;

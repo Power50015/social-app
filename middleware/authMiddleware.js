@@ -9,7 +9,7 @@ const requireAuth = (req, res, next) => {
     const token = BearerToken.split(" ")[1];
     jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
       if (err) {
-        // console.log(err.message);
+        res.status(401).json("User not Found");
       } else {
         next();
       }
@@ -28,19 +28,19 @@ const userData = async (req, res) => {
     jwt.verify(token, process.env.TOKEN, (err, decodedToken) => {
       userId = decodedToken.id;
     });
-    try{
+    try {
       const user = await User.findById(userId).exec();
-      if (user) {
-        return {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-        };
-      }
-    }catch {
+      return {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      };
+    } catch (error) {
       res.status(401).json("User not Found");
     }
+  } else {
+    res.status(401).json("User not Found");
   }
 };
 

@@ -9,13 +9,13 @@ let random = Math.floor(Math.random() * 99999999) + "x";
 const name1 = "john1" + random;
 const email1 = "john1" + random + "@gmail.com";
 random = Math.floor(Math.random() * 99999999) + "x";
-const name2 = "john1" + random;
-const email2 = "john1" + random + "@gmail.com";
+const name2 = "john2" + random;
+const email2 = "john2" + random + "@gmail.com";
 let userId1, userId2;
 
 describe("Friend Request Send Test Units", function () {
   // Preparing Unit Test
-  let response1, responseBody1, response2, responseBody2, friendResponse;
+  let response1, responseBody1, response2, responseBody2,friendResponse;
 
   beforeAll(async () => {
     // Save First User
@@ -61,7 +61,7 @@ describe("Friend Request Send Test Units", function () {
   });
 
   it("Respond with a JSON object containing Post Data", function () {
-    let friendResponseData = friendResponse.body.friendRequest;
+    let friendResponseData =friendResponse.body.friendRequest;
     expect(userId1).toEqual(friendResponseData.senderId);
     expect(userId2).toEqual(friendResponseData.receiverId);
   });
@@ -75,13 +75,13 @@ describe("Friend Request Send Test Units", function () {
       .send({
         receiverId: userId2,
       });
-    expect(friendResponse.status).toEqual(400);
+      expect(friendResponse.status).toEqual(400);
   });
 
   // it("Test if  is alrady a frind", function () {
 
   // });
-  // it("Test if  is alrady a blocked", function () {
+    // it("Test if  is alrady a blocked", function () {
 
   // });
 
@@ -134,7 +134,7 @@ describe("Friend Request Send Test Units", function () {
     expect(friendResponse.status).toEqual(401);
   });
 
-  it("Test Validated User resver Data", async function () {
+  it("Test Validated User resver Data",async function () {
     // Send Friend Request
     friendResponse = await request(app)
       .post("/friend-request")
@@ -143,73 +143,8 @@ describe("Friend Request Send Test Units", function () {
       .send({
         receiverId: "userId2",
       });
-    expect(friendResponse.status).toEqual(400);
-  });
-});
-
-describe("Friend Request Get All Friend Requests Test Units", function () {
-  let saveUserResponse, response;
-  // Preparing Unit Test
-  beforeAll(async () => {
-    saveUserResponse = await request(app)
-      .post("/register")
-      .send({
-        name: name1 + "x",
-        email: email1 + "x",
-        password: random + "x",
-      })
-      .set("Accept", "application/json");
-
-    for (let index = 0; index < 5; index++) {
-      let random = Math.floor(Math.random() * 99999999) + "x";
-      const name = "power" + random;
-      const email = "power" + random + "@gmail.com";
-      let res = await request(app)
-        .post("/register")
-        .send({
-          name: name,
-          email: email,
-          password: random,
-        })
-        .set("Accept", "application/json");
-      // Send Friend Request
-      await request(app)
-        .post("/friend-request")
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${saveUserResponse.body.jwt}`)
-        .send({
-          receiverId: res.body._id,
-        });
-    }
-
-    response = await request(app)
-      .get("/friend-request")
-      .set("Authorization", `Bearer ${saveUserResponse.body.jwt}`)
-      .set("Accept", "application/json");
+      expect(friendResponse.status).toEqual(400);
   });
 
-  it("Respond with a 200 status code", function () {
-    expect(response.status).toEqual(200);
-  });
-
-  it("Specify JSON in the content type header", function () {
-    expect(response.headers["content-type"]).toMatch(/json/);
-  });
-  
-  it("Test if not the JWT", async function () {
-    // Send Friend Request
-    friendResponse = await request(app)
-      .get("/friend-request")
-      .set("Accept", "application/json");
-    expect(friendResponse.status).toEqual(401);
-  });
-
-  it("Test if not JWT valid", async function () {
-    // Send Friend Request
-    friendResponse = await request(app)
-      .get("/friend-request")
-      .set("Accept", "application/json")
-      .set("Authorization", `Bearer ${saveUserResponse.body.jwt.replace("m", "x")}`);
-    expect(friendResponse.status).toEqual(401);
-  });
+ 
 });

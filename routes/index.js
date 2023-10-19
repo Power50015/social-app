@@ -33,12 +33,12 @@ router.post("/post", requireAuth, postController.create);
 */
 router.get("/friend-request", requireAuth, friendRequestController.index);
 router.post("/friend-request", requireAuth, friendRequestController.create);
+router.delete("/friend-deny", requireAuth, friendRequestController.delete);
 
-router.post("/friend-deny", requireAuth, friendRequestController.delete);
 /**
  * Friend CRUD
 */
-router.post("/friend-accept", requireAuth, friendController.accept);
+// router.post("/friend-accept", requireAuth, friendController.accept);
 
 
 // router.post("/friend-accept", requireAuth, friendController.create); // Create

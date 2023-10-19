@@ -49,4 +49,30 @@ module.exports = {
       }
     }
   },
+  async delete(req, res) {
+    const user = await userData(req, res);
+    if (user?.id) {
+      const reqId = req.body.requestId;
+      try {
+        const reqData = await FriendRequest.findById(reqId).exec();
+        if (reqData) {
+          if (
+            reqData.senderId == user.id + "" ||
+            reqData.receiverId == user.id + ""
+          ) {
+            await FriendRequest.deleteOne({
+              _id: reqId,
+            });
+            res.status(201).json("Done");
+          } else {
+            res.status(405).json("The User not allow");
+          }
+        } else {
+          res.status(400).json("The Request ID is worng");
+        }
+      } catch (error) {
+        res.status(400).json("The User ID is worng");
+      }
+    }
+  },
 };

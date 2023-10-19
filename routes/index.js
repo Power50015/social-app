@@ -4,6 +4,8 @@ const { requireAuth } = require("../middleware/authMiddleware");
 
 const postController = require("../controllers/postController");
 const friendRequestController = require("../controllers/friendRequestController");
+const friendController = require("../controllers/friendController");
+
 
 const router = Router();
 
@@ -32,9 +34,12 @@ router.post("/post", requireAuth, postController.create);
 router.get("/friend-request", requireAuth, friendRequestController.index);
 router.post("/friend-request", requireAuth, friendRequestController.create);
 
+router.post("/friend-deny", requireAuth, friendRequestController.delete);
 /**
  * Friend CRUD
 */
+router.post("/friend-accept", requireAuth, friendController.accept);
+
 
 // router.post("/friend-accept", requireAuth, friendController.create); // Create
 

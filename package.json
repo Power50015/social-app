@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
+    "start": "node app.js",
     "test": "jest --watchAll",
     "testcoverage": "jest --watchAll --verbose --coverage",
     "seed": "./seed"
